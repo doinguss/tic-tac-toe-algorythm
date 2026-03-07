@@ -8,5 +8,5 @@ if(board[i][j]===""){
 }
 
 function turn(){
-    while(!tryp(Math.random%3,Math.random%3)){}
+    while(!tryp((int)(Math.random*2.9),(int)(Math.random*2.9))){}
 }
