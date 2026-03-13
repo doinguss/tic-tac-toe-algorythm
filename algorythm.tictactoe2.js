@@ -1,34 +1,31 @@
-var board=[["","",""],["","",""],["","",""]];
-var playchar="X";
-var opponentchar="O";
-
 class mything{
-    constructor(board,playchar,opponentchar){
-        this.b=board;
+    constructor(playchar,opponentchar){
         this.p=playchar;
         this.q=opponentchar;
     }
-    trsp(b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                     o[i][j]=b[j][i];                   }}return o;}//mirrors on diagonal
+    cpy (b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                     o[i][j]=b[i][j];                   }}return o;}//simple copy method
+    trsp(b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                     o[i][j]=b[j][i];                   }}return o;}//mirrors on diagonal/ transposes the matrix
     rev (b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                    o[i][j]=b[i][2-j];                  }}return o;}//reverses the order in each row
-    mx2s(b) {                   let o;                for(let i=0;i<3;i++){for(let j=0;j<3;j++){  if(b[i][j]===""){o+="."}else{o+=(b[i][j]==p?"X":"O")} }}return o;}//generates a 1d string from 2d matrix(3X3) replaces empty with '.'
+    mx2s(b) {let o="";          for(let i=0;i<3;i++){for(let j=0;j<3;j++){if(b[i][j]===""){o+='.';}else{o+=(b[i][j]==this.p?'x':'O')                  ;}}}return o;}//generates a 1d string from 2d matrix(3X3) replaces empty with '.'
 
-    turn()  {//the thing getting called at each turn, checks if boardstate is in lookuptable otherwise manipulates the matrix and looks again untill it finds a match
-        let o=structuredClone(b);
+    turn(b)  {//the thing getting called at each turn, checks if boardstate is in lookuptable otherwise manipulates the matrix and looks again untill it finds a match
+        let o=this.cpy(b);
         let u=[[0,1,2],[3,4,5],[6,7,8]];//index matrix, is manipulated the same way the data matrix is but retains the original position of each position in form of value
-        let i=-1;
-        while(this.lookup (o)===-1){
+        let i=this.lookup(o);
+        while(i===-1){
             o=this.trsp   (o);
             u=this.trsp   (u);
-            if(this.lookup(o)!==-1){break;}
+            i=this.lookup (o);
+            if(i!==-1){break;}
             o=this.rev    (o);
             u=this.rev    (u);
         }
-        this.b[(int)(u[i]*0.3625)][u[i]%3]=this.p; //the const is 2.9/8 and im taking the floor of that so that itll increase by 1 every third exluding the final one so its 0 0 0 1 1 1 2 2 2 for all the numbers 0 trhough 8
+        i=u[Math.floor(i*0.3625)][i%3];
+        b[Math.floor(i*0.3625)][i%3]=this.p; //the const is 2.9/8 and im taking the floor of that so that itll increase by 1 every third exluding the final one so its 0 0 0 1 1 1 2 2 2 for all the numbers 0 trhough 8
+        console.log(this.mx2s(b));
     }
-
-    lookup(i,o) {//lookup table for compressed gamestates, returns optimal* move (*i dont know its optimal its the best i can do tho xd)
-
-        var table={
+    lookup(o) {//lookup table for compressed gamestates, returns optimal* move (*i dont know its optimal its the best i can do tho xd)
+        let table={
             ".........": 0,	"....O....": 0,	".O..XO...": 0,	".O..X..O.": 0,	"X...O....": 1,	"X.X.XOO.O": 1,	"X.OOXXXOO": 1,	"O.O.X....": 1,
 			"O.O.X.X.O": 1,	"X.OOOXX.O": 1,	"X.XXOOOO.": 1,	"X.OOOXXO.": 1,	"X.XXOOO.O": 1,	"XX..OO...": 2,	"XX..O...O": 2,	"XX..O..O.": 2,
 			"XX..O.O..": 2,	"XX.OO....": 2,	"X...XO..O": 2,	"OO..X....": 2,	"XO..O.OX.": 2,	"OO..XOX..": 2,	"O..OXOX..": 2,	"O...XOXO.": 2,
@@ -43,7 +40,6 @@ class mything{
 			"XXOOOXX.O": 7,	"XO..O....": 7,	"OXOOX....": 7,	"OXO.X.O..": 7,	"OXO.XOX.O": 7,	"OOXXXOO..": 7,	"XOX.XOO.O": 7,	"XOO.X....": 8,
 			"XO..XO...": 8,	"XO..X..O.": 8,	"XO..X.O..": 8,	"XO.OX....": 8,	"X.O.XO...": 8,	"X.O.X..O.": 8,	"X.O.X.O..": 8,	"X...XO.O.": 8,
 			"XXOOOXXO.": 8,	"O.O.XOX..": 8,	"XO.OXO...": 8,	"XO..XO.O.": 8,	"XO..X.OO.": 8,	"XOOOO.XX.": 8,	"OXO.XOXO.": 8,	"OXOXXO.O.": 8 }
-        i=table[this.mtrx2string(o)]||0;
-        return i;
+        return table[this.mx2s(o)]==null?   -1:table[this.mx2s(o)];
     }
 }
