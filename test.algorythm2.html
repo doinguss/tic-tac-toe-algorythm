@@ -10,9 +10,9 @@
     <script src="algorythm.tictactoe(failsafe).js"></script>
     <script src="algorythm.tictactoe2.js"></script>
     <script>
-        var p0=new mything("x");
-        var p1=new failsafe("o");
-        let player=0;
+        var p0=new mything("A");
+        var p1=new failsafe("B");
+        let player=0,score_p0=0,score_p1=0,tie=0;
         let board=[  ["","",""]
                     ,["","",""]
                     ,["","",""]];
@@ -34,14 +34,20 @@
                     //document.querySelector('span.disp').textContent=disp(board);
                     return disp(board);
                 case 1:
-                    player=-1;
-                    return "player 0 won";
+                        player=-1;
+                        score_p0++;
+                        reset();
+                    return "player 0 won =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
                     case 2:
-                    player=-1;
-                    return "player 1 won";
-                case 3:
-                    player=-1;
-                    return "tie";
+                        score_p1++;
+                        player=-1;
+                        reset();
+                    return "player 1 won =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
+                    case 3:
+                        tie++;
+                        player=-1;
+                        reset();
+                    return "tie =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
             }
         }
         let checkgamestate=function(){
@@ -62,7 +68,7 @@
                 for(let j=0;j<2;j++){
                     if(board[0][0+j*2]!==c){continue;}
                     if(board[1][  1  ]!==c){continue;}
-                    if(board[0][2-j*2]!==c){continue;}
+                    if(board[2][2-j*2]!==c){continue;}
                     return i+1;
                 }c=p1.p;
             }
@@ -84,6 +90,12 @@
             }
             o+="=====\n";
             return o;
+        }
+        let reset=function(){
+            player=0;
+            board=[ ["","",""],
+                    ["","",""],
+                    ["","",""]];
         }
     </script>
 </html>

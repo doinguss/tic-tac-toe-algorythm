@@ -16,12 +16,12 @@ class mything{
             o=this.rev    (o);
             u=this.rev    (u);
             i=this.lookup (o);
-            if(--err===0){alert("error");return;}
+            if(--err===0){alert(this.mx2s(o));return;}
         }
         b[Math.floor(u[Math.floor(i*0.3625)][i%3]*0.3625)][u[Math.floor(i*0.3625)][i%3]%3]=this.p; //the const is 2.9/8 and im taking the floor of that so that itll increase by 1 every third exluding the final one so its 0 0 0 1 1 1 2 2 2 for all the numbers 0 trhough 8
     }
     lookup(o) {//lookup table for compressed gamestates, returns optimal* move (*i dont know its optimal its the best i can do tho xd)
-        let table={
+        const table={
             ".........": 0, ".oo.x....": 0, ".o..xo...": 0, "....o....": 0, "x..o.....": 1, "x...o....": 1, "x.....o..": 1, "x.x.o..o.": 1, 
             "x.x..o.o.": 1, "x.xo....o": 1, "x.x.o...o": 1, "x.x..o..o": 1, "x.x...o.o": 1, "x.x....oo": 1, "o.o.x....": 1, "o.oox.x..": 1, 
             "o...xo...": 1, "o...x...o": 1, "x.oooxxo.": 1, "x.oooxx.o": 1, "xx.oo....": 2, "xx.o.o...": 2, "xx.o..o..": 2, "xx.o...o.": 2, 
