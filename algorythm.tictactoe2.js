@@ -1,7 +1,6 @@
 class mything{
-    constructor(playchar,opponentchar){
+    constructor(playchar){
         this.p=playchar;
-        this.q=opponentchar;
     }
     trsp(b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                     o[i][j]=b[j][i];                       }}return o;}//mirrors on diagonal/ transposes the matrix
     rev (b) {let o=[["","",""],["","",""],["","",""]];for(let i=0;i<3;i++){for(let j=0;j<3;j++){                    o[i][j]=b[i][2-j];                      }}return o;}//reverses the order in each row
@@ -40,13 +39,4 @@ class mything{
             "xo.oxo...": 8, "xo..xoo..": 8, "xo..xo.o.": 8, "xoooo.xx.": 8 }
         return table[this.mx2s(o)]==null?   -1:table[this.mx2s(o)];
         }
-        disp(b) {let o="=====\n";
-            for(let i=0;i<3;i++){
-                o+="|";
-                for(let j=0;j<3;j++){
-                    if(b[i][j]===""){o+='.';}
-                    else{o+=(b[i][j]==this.p?this.p:this.q);}}
-                o+="|\n";}
-            o+="=====\n";
-        return o;}
     }

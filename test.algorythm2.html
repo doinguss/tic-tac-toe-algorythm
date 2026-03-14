@@ -7,10 +7,11 @@
         <span class="disp"></span>
     </body>
     <script src="setval.js"></script>
+    <script src="algorythm.tictactoe(failsafe).js"></script>
     <script src="algorythm.tictactoe2.js"></script>
     <script>
-        var p0=new mything("x","o");
-        var p1=new mything("o","x");
+        var p0=new mything("x");
+        var p1=new failsafe("o");
         let player=0;
         let board=[  ["","",""]
                     ,["","",""]
@@ -26,55 +27,63 @@
                     p1.turn(board);
                     player=0;
                     break;
-                default:break;
+                default:return;
             }
             switch(checkgamestate()){
                 case 0:
-                    document.querySelector('span.disp').textContent=p0.disp(board);
-                    break;
+                    //document.querySelector('span.disp').textContent=disp(board);
+                    return disp(board);
                 case 1:
-                    document.querySelector('span.disp').textContent="player 0 won\n"+p0.disp(board);
                     player=-1;
-                    break;
-                case 2:
-                    document.querySelector('span.disp').textContent="player 1 won\n"+p0.disp(board);
+                    return "player 0 won";
+                    case 2:
                     player=-1;
-                    break;
+                    return "player 1 won";
                 case 3:
-                    document.querySelector('span.disp').textContent="tie\n"+p0.disp(board);
                     player=-1;
-                    break;
+                    return "tie";
             }
-            return p0.disp(board);
         }
         let checkgamestate=function(){
             let c=p0.p;
             for(let i=0;i<2;i++){
                 for(let j=0;j<3;j++){
-                    if(board[j][  0  ]!==c){break;}
-                    if(board[j][  1  ]!==c){break;}
-                    if(board[j][  2  ]!==c){break;}
+                    if(board[j][  0  ]!==c){continue;}
+                    if(board[j][  1  ]!==c){continue;}
+                    if(board[j][  2  ]!==c){continue;}
                     return i+1;
                 }
                 for(let j=0;j<3;j++){
-                    if(board[0][  j  ]!==c){break;}
-                    if(board[1][  j  ]!==c){break;}
-                    if(board[2][  j  ]!==c){break;}
+                    if(board[0][  j  ]!==c){continue;}
+                    if(board[1][  j  ]!==c){continue;}
+                    if(board[2][  j  ]!==c){continue;}
                     return i+1;
                 }
                 for(let j=0;j<2;j++){
-                    if(board[0][0+j*2]!==c){break;}
-                    if(board[1][  1  ]!==c){break;}
-                    if(board[0][2-j*2]!==c){break;}
+                    if(board[0][0+j*2]!==c){continue;}
+                    if(board[1][  1  ]!==c){continue;}
+                    if(board[0][2-j*2]!==c){continue;}
                     return i+1;
                 }c=p1.p;
             }
             for(let i=0;i<3;i++){
-            for(let j=0;j<3;j++){
-                if(board[i][j]==""){return 0;}
-            }
+                for(let j=0;j<3;j++){
+                    if(board[i][  j  ]===""){return 0;}
+                }
             }
             return 3;
+        }
+        let disp=function(b) {
+            let o="=====\n";
+            for(let i=0;i<3;i++){
+                o+="|";
+                for(let j=0;j<3;j++){
+                    if(b[i][j]===""){o+='.';}
+                    else{o+=(b[i][j]==p0.p?p0.p:p1.p);}}
+                o+="|\n";
+            }
+            o+="=====\n";
+            return o;
         }
     </script>
 </html>
