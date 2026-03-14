@@ -3,11 +3,78 @@
     <head>
         <title>test</title>
     </head>
-    <body>
-        <script src="algorythm.tictactoe2.js"></script>
-        <script>
-            var thing=new mything("O","X");
-            thing.turn([["X","",""],["","",""],["","",""]]);
-        </script>
+    <body bgcolor="#333">
+        <span class="disp"></span>
     </body>
+    <script src="setval.js"></script>
+    <script src="algorythm.tictactoe2.js"></script>
+    <script>
+        var p0=new mything("x","o");
+        var p1=new mything("o","x");
+        let player=0;
+        let board=[  ["","",""]
+                    ,["","",""]
+                    ,["","",""]];
+
+        let turn=function(){
+            switch(player){
+                case 0:
+                    p0.turn(board);
+                    player=1;
+                    break;
+                case 1:
+                    p1.turn(board);
+                    player=0;
+                    break;
+                default:break;
+            }
+            switch(checkgamestate()){
+                case 0:
+                    document.querySelector('span.disp').textContent=p0.disp(board);
+                    break;
+                case 1:
+                    document.querySelector('span.disp').textContent="player 0 won\n"+p0.disp(board);
+                    player=-1;
+                    break;
+                case 2:
+                    document.querySelector('span.disp').textContent="player 1 won\n"+p0.disp(board);
+                    player=-1;
+                    break;
+                case 3:
+                    document.querySelector('span.disp').textContent="tie\n"+p0.disp(board);
+                    player=-1;
+                    break;
+            }
+            return p0.disp(board);
+        }
+        let checkgamestate=function(){
+            let c=p0.p;
+            for(let i=0;i<2;i++){
+                for(let j=0;j<3;j++){
+                    if(board[j][  0  ]!==c){break;}
+                    if(board[j][  1  ]!==c){break;}
+                    if(board[j][  2  ]!==c){break;}
+                    return i+1;
+                }
+                for(let j=0;j<3;j++){
+                    if(board[0][  j  ]!==c){break;}
+                    if(board[1][  j  ]!==c){break;}
+                    if(board[2][  j  ]!==c){break;}
+                    return i+1;
+                }
+                for(let j=0;j<2;j++){
+                    if(board[0][0+j*2]!==c){break;}
+                    if(board[1][  1  ]!==c){break;}
+                    if(board[0][2-j*2]!==c){break;}
+                    return i+1;
+                }c=p1.p;
+            }
+            for(let i=0;i<3;i++){
+            for(let j=0;j<3;j++){
+                if(board[i][j]==""){return 0;}
+            }
+            }
+            return 3;
+        }
+    </script>
 </html>
