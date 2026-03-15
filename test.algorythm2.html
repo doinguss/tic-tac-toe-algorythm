@@ -7,12 +7,13 @@
         <span class="disp"></span>
     </body>
     <script src="setval.js"></script>
+    <script src="leobot.js"></script>
     <script src="algorythm.tictactoe(failsafe).js"></script>
     <script src="algorythm.tictactoe2.js"></script>
     <script>
-        var p0=new mything("A");
-        var p1=new failsafe("B");
-        let player=0,score_p0=0,score_p1=0,tie=0;
+        var p0=new failsafe("A");
+        var p1=new mything("L");
+        let player=1,score_p0=0,score_p1=0,tie=0;
         let board=[  ["","",""]
                     ,["","",""]
                     ,["","",""]];
@@ -34,18 +35,15 @@
                     //document.querySelector('span.disp').textContent=disp(board);
                     return disp(board);
                 case 1:
-                        player=-1;
                         score_p0++;
                         reset();
                     return "player 0 won =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
                     case 2:
                         score_p1++;
-                        player=-1;
                         reset();
                     return "player 1 won =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
                     case 3:
                         tie++;
-                        player=-1;
                         reset();
                     return "tie =>  "+score_p0+" : "+score_p1+"   ties("+tie+")";
             }
@@ -92,10 +90,18 @@
             return o;
         }
         let reset=function(){
-            player=0;
             board=[ ["","",""],
                     ["","",""],
                     ["","",""]];
+        p1.botturn=0;
+        p1.layerouterindex=0;
+        p1.layerinnerindex=0;
+        }
+        let auto=function(){
+            let gen=9999999;
+            while(--gen!==0){
+                turn();
+            }
         }
     </script>
 </html>
